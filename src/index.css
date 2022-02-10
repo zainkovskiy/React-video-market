@@ -15,4 +15,38 @@ main{
 }
 footer{
   padding: 0 !important;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.cards{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+  padding: 1rem;
+}
+.cards__item{
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.cards__text{
+  border: 1px solid black;
+  padding: 0.5rem;
+}
+.cards__title{
+  font-weight: 700;
+  margin: 0;
+}
+img{
+  height: 430px;
+  object-fit: cover;
+  width: 100%;
+}
+
+span {
+  display: block;
+  margin: 0.5rem 0 0 0;
+  width: 100%;
 }
