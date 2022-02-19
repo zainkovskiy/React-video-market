@@ -5,7 +5,6 @@ import Preloader from "../Components/Preloader";
 import Search from "../Components/Search";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-console.log(API_KEY)
 
 class Main extends Component{
   state = {
@@ -14,7 +13,7 @@ class Main extends Component{
   };
   setListItem = (value, type = 'all') => {
     this.setState({loading: true});
-    fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${value}${type !== 'all' ? `&type=${type}` : ''}`).then(res => {
+    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${value}${type !== 'all' ? `&type=${type}` : ''}`).then(res => {
       res.json().then(data => {
         if (data.Response === "True"){
           this.setState({list: data.Search, loading: false});
@@ -23,6 +22,9 @@ class Main extends Component{
           this.setState({list: [], loading: false});
         }
       })
+    }).catch(err => {
+      console.log(err);
+      this.setState({loading: false});
     })
   }
   render() {
