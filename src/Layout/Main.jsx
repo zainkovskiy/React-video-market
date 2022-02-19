@@ -1,29 +1,43 @@
 import React, { Component } from "react";
 
 import List from '../Components/List';
+import Preloader from "../Components/Preloader";
+import Search from "../Components/Search";
+
+const API_KEY = process.env.REACT_APP_API_KEY;
+console.log(API_KEY)
 
 class Main extends Component{
   state = {
-    list: '',
+    list: [],
+    loading: true,
   };
+  setListItem = (value, type = 'all') => {
+    this.setState({loading: true});
+    fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${value}${type !== 'all' ? `&type=${type}` : ''}`).then(res => {
+      res.json().then(data => {
+        if (data.Response === "True"){
+          this.setState({list: data.Search, loading: false});
+          console.log(data.Search)
+        } else {
+          this.setState({list: [], loading: false});
+        }
+      })
+    })
+  }
   render() {
+    const { list ,loading } = this.state;
     return (
         <main className='container content'>
+          <Search setListItem={this.setListItem}/>
           {
-            this.state.list ? <List list={this.state.list}/> : 'loading'
+            loading ? <Preloader/> : <List list={list}/>
           }
         </main>
     )
   }
   componentDidMount() {
-    fetch('http://www.omdbapi.com/?apikey=fcdad292&s=iron man').then(res => {
-      res.json().then(data => {
-        console.log(data)
-        if (data.Response === "True"){
-          this.setState({list: data.Search});
-        }
-      })
-    })
+    this.setListItem('iron man', 'all');
   }
 }
 
