@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/React-video-market/static/css/main.99f60261.css",
+    "main.js": "/React-video-market/static/js/main.09f8d29c.js",
+    "index.html": "/React-video-market/index.html",
+    "main.99f60261.css.map": "/React-video-market/static/css/main.99f60261.css.map",
+    "main.09f8d29c.js.map": "/React-video-market/static/js/main.09f8d29c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.99f60261.css",
+    "static/js/main.09f8d29c.js"
+  ]
+}
