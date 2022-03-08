@@ -1,34 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class Search extends Component{
-  state = {
-    search: '',
-    type: 'all',
-  }
-  handlerKey = (event) => {
+function Search (props){
+  const {
+    setListItem = Function.prototype,
+  } = props;
+  const [ type, setType ] = useState('all');
+  const [ search, setSearch ] = useState('');
+
+  const handlerKey = (event) => {
     if (event.key === 'Enter'){
-      this.props.setListItem(this.state.search, this.state.type);
+      setListItem(search, type);
     }
   }
-  handlerRadioBtn = (event) => {
-    this.setState(() => ({type: event.target.id}), () => {
-      this.props.setListItem(this.state.search, this.state.type);
-    });
+  const handlerRadioBtn = (event) => {
+    setType(event.target.id);
+    setListItem(search, event.target.id);
   }
-  render() {
+
     return <div className="row">
               <div className="input-field col s12">
                 <input
                     type="search"
                     className="validate"
-                    value={this.state.search}
-                    onChange={(e) => this.setState({search: e.target.value})}
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                     placeholder='search'
-                    onKeyDown={this.handlerKey}
+                    onKeyDown={handlerKey}
                 />
                 <button
                     className='btn search-btn grey lighten-1'
-                    onClick={() => this.props.setListItem(this.state.search, this.state.type)}
+                    onClick={() => setListItem(search, type)}
                 >
                     Search
                 </button>
@@ -40,8 +41,8 @@ class Search extends Component{
                         id='all'
                         type="radio"
                         name='type'
-                        checked={this.state.type === 'all'}
-                        onChange={this.handlerRadioBtn}
+                        checked={type === 'all'}
+                        onChange={handlerRadioBtn}
                     />
                     all
                   </label>
@@ -51,8 +52,8 @@ class Search extends Component{
                         id='movie'
                         type="radio"
                         name='type'
-                        checked={this.state.type === 'movie'}
-                        onChange={this.handlerRadioBtn}
+                        checked={type === 'movie'}
+                        onChange={handlerRadioBtn}
                     />
                     movies
                   </label>
@@ -62,14 +63,13 @@ class Search extends Component{
                         id='series'
                         type="radio"
                         name='type'
-                        checked={this.state.type === 'series'}
-                        onChange={this.handlerRadioBtn}
+                        checked={type === 'series'}
+                        onChange={handlerRadioBtn}
                     />
                     serials
                   </label>
                 </div>
             </div>
-  }
 }
 
 export default Search;

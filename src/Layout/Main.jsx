@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import List from '../Components/List';
 import Preloader from "../Components/Preloader";
@@ -6,41 +6,41 @@ import Search from "../Components/Search";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-class Main extends Component{
-  state = {
-    list: [],
-    loading: true,
-  };
-  setListItem = (value, type = 'all') => {
-    this.setState({loading: true});
+function Main (){
+  const [ loading, setloading ] = useState(true);
+  const [ list, setlist ] = useState([]);
+
+  const setListItem = (value, type = 'all') => {
+    setloading(true);
     fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${value}${type !== 'all' ? `&type=${type}` : ''}`).then(res => {
       res.json().then(data => {
         if (data.Response === "True"){
-          this.setState({list: data.Search, loading: false});
+          setlist(data.Search);
+          setloading(false);
           console.log(data.Search)
         } else {
-          this.setState({list: [], loading: false});
+          setlist([]);
+          setloading(false);
         }
       })
     }).catch(err => {
       console.log(err);
-      this.setState({loading: false});
+      setloading(false);
     })
   }
-  render() {
-    const { list ,loading } = this.state;
-    return (
-        <main className='container content'>
-          <Search setListItem={this.setListItem}/>
-          {
-            loading ? <Preloader/> : <List list={list}/>
-          }
-        </main>
-    )
-  }
-  componentDidMount() {
-    this.setListItem('iron man', 'all');
-  }
+
+  useEffect(() => {
+    setListItem('iron man', 'all');
+  }, []);
+
+  return (
+      <main className='container content'>
+        <Search setListItem={setListItem}/>
+        {
+          loading ? <Preloader/> : <List list={list}/>
+        }
+      </main>
+  )
 }
 
 export default Main;
